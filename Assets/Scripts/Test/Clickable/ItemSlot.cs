@@ -26,9 +26,6 @@ public class ItemSlot : MonoBehaviour, IClickHandler
     public void OnClickAction()
     {
         if (currentItem == null) return;
-
-        InventoryModel.instance.AddItem(currentItem);
         furnitureBox.RemoveItem();
-        Initialize(furnitureBox, null);
     }
 }

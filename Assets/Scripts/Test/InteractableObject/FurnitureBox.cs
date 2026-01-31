@@ -57,14 +57,27 @@ public class FurnitureBox : MonoBehaviourPun, IInteractable, IContainer
 
     public void RemoveItem()
     {
-        photonView.RPC("RPC_RemoveItem", RpcTarget.All);
+        if (this.itemData == null) return;
+        photonView.RPC("RPC_RequestTakeItem", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
     }
 
     [PunRPC]
-    void RPC_RemoveItem()
+    void RPC_RequestTakeItem (int requestingPlayerId)
     {
+        if (this.itemData == null) return;
+        photonView.RPC("RPC_SuccessTakeItem", RpcTarget.All, requestingPlayerId);
+    }
+
+    [PunRPC]
+    void RPC_SuccessTakeItem(int playerID)
+    {
+        if (PhotonNetwork.LocalPlayer.ActorNumber == playerID)
+        {
+            InventoryModel.instance.AddItem(this.itemData);
+        }
         this.itemData = null;
-        if (boxPanel.activeSelf && slotUI != null) slotUI.Initialize(this, itemData);
+
+        if (boxPanel.activeSelf && slotUI!= null) slotUI.Initialize(this, null);
     }
 
     [PunRPC]

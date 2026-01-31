@@ -3,7 +3,7 @@ using Photon.Pun;
 
 
 //플레이어가 앞의 상호작용 대상을 Raycast로 감지, E키로 상호작용
-public class PlayerInteraction : MonoBehaviour
+public class PlayerInteraction : MonoBehaviourPun
 {
 
     public static PlayerInteraction instance;
@@ -30,11 +30,13 @@ public class PlayerInteraction : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null) instance = this;
+        if (photonView.IsMine) instance = this;
     }
     //매 프레임마다 자동 호출됨
     private void Update()
     {
+        if (!photonView.IsMine) return;
+        
         //현재 입력 기반으로 바라보는 방향(lookDir) 갱신
         UpdateLookDirection();
         //lookdir 방향으로 Raycast 쏴서 상호작용
