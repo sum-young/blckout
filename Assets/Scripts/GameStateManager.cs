@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using ExitGames.Client.Photon; //Hashtable 사용 위해서
+using HashTable = ExitGames.Client.Photon.Hashtable;
 
 public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -30,6 +31,8 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
     //상태변수
     public GameState currentState = GameState.Playing_OnLight;
     private float currentGameTime;
+    private int loadedPlayerCnt = 0;
+    public bool isGameStart = false;
 
     //투표용 변수
     private double votingEndTime;
@@ -47,7 +50,6 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
     }
     void Start()
     {
-
         #region 테스트용 코드
         if (PhotonNetwork.IsConnectedAndReady)
         {
@@ -69,11 +71,16 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
         if (votingPanel != null) votingPanel.SetActive(false);
         UpdateLightState();
 
-
+        if (PhotonNetwork.IsMasterClient)
+        {
+            AssignJobs();
+        }
     }
 
     void Update()
     {
+        if (isGameStart == false) return;
+
         switch (currentState)
         {
             case GameState.Playing_OnLight:
@@ -120,7 +127,27 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public void AssignJobs()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
 
+        Player[] allPlayers = PhotonNetwork.PlayerList;
+        int killerIndex = Random.Range(0, allPlayers.Length);
+
+        for (int i = 0; i < allPlayers.Length; i++)
+        {
+            HashTable props = new HashTable();
+
+            if (i == killerIndex)
+            {
+                props.Add("Job", "Killer");
+                Debug.Log($"[직업배정] 킬러: {allPlayers[i].NickName}");
+            }
+            else
+            {
+                props.Add("Job", "Survivor");
+            }
+
+            allPlayers[i].SetCustomProperties(props);
+        }
     }
 
     public WhoWin CheckWinCondition()
@@ -207,6 +234,30 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
 
 
     #region [네트워크 관련]
+    [PunRPC]
+    public void RPC_ReportLoadingComplete()
+    {
+        // 방장만 인원 체크
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        loadedPlayerCnt++;
+        Debug.Log($"[로딩체크] {loadedPlayerCnt} / {PhotonNetwork.PlayerList.Length} 명 로딩 완료");
+
+        if (loadedPlayerCnt == PhotonNetwork.PlayerList.Length)
+        {
+            Debug.Log("[로딩체크] 모든 플레이어 로딩 완료");
+            AssignJobs();
+            photonView.RPC("RPC_StartGame", RpcTarget.All); // 게임 시작 신호 방송
+        }
+    }
+
+    [PunRPC]
+    void RPC_StartGame()
+    {
+        isGameStart = true; // 각 플레이어들의 Update문 실행 시작
+        Debug.Log("게임 로직 가동 시작");
+    }
+
     [PunRPC]
     void RPC_SetGameState(GameState newState, double endTime)
     {
