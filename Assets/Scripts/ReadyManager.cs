@@ -76,7 +76,7 @@ public class ReadyManager : MonoBehaviourPunCallbacks
         // 플레이어를 다시 로비창으로 이동시켜주기
         Debug.Log("방 퇴장 완료. 로비창으로 돌아갑니다.");
         // 로비씬의 이름 Lobby 겠죠??
-        SceneManager.LoadScene("Scene_Lobby");
+        SceneManager.LoadScene("Scene_Connect");
     }
 
     // 내가 아닌 다른 플레이어가 퇴장했을 시
