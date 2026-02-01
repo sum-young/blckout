@@ -45,10 +45,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
         }
         #endregion
+
+        ApplyKillerNameRed(); // 시작할 때 직업이 있을 수 있으니 여기서도 체크
     }
 
     void Update()
-    {   
+    {
         // 1.내 캐릭터 아니면 조종X
         if (!photonView.IsMine) return;
 
@@ -62,7 +64,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
-        moveInput = new Vector2(x,y).normalized;
+        moveInput = new Vector2(x, y).normalized;
 
         UpdateAnimation(moveInput);
     }
@@ -92,13 +94,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if (targetPlayer.ActorNumber == photonView.Owner.ActorNumber && changedProps.ContainsKey("IsDead"))
+        if (targetPlayer.ActorNumber == photonView.Owner.ActorNumber)
         {
-            CheckLifeStatus();
+            if (changedProps.ContainsKey("IsDead"))
+            {
+                CheckLifeStatus();
+            }
+
+            if (changedProps.ContainsKey("Job"))
+            {
+                ApplyKillerNameRed();
+            }
         }
     }
 
-    void UpdateAnimation (Vector3 moveDir)
+    void UpdateAnimation(Vector3 moveDir)
     {
         if (moveDir.magnitude > 0)
         {
@@ -118,6 +128,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (photonView.Owner.CustomProperties.ContainsKey("IsDead")) isDead = (bool)photonView.Owner.CustomProperties["IsDead"];
         if (isDead) Die();
+    }
+
+    void ApplyKillerNameRed()
+    {
+        object jobValue;
+        if (photonView.Owner.CustomProperties.TryGetValue("Job", out jobValue))
+        {
+            string job = (string)jobValue;
+
+            if (job == "Killer")
+            {
+                playerNameText.color = Color.red; // 킬러면 빨간색
+            }
+            else
+            {
+                playerNameText.color = Color.black; // 생존자면 검정색
+            }
+        }
     }
 
     void Die()
