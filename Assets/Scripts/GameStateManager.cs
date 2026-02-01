@@ -12,6 +12,10 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
     //싱글톤으로 생성
     public static GameStateManager instance;
 
+    //상태 변경 알림 이벤트(빛/사운드/ 등이 구독해서 반응)
+    public System.Action<GameState> OnGameStateChanged;
+
+
     #region 인스펙터창 설정 변수
     [Header("UI 연결")]
     public TextMeshProUGUI timerText; //투표 타이머
@@ -64,7 +68,7 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
             props.Add("IsDead", false);
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }
-        #endregion
+        #endregion*/
 
         blackoutDelay = Random.Range(30f, 60f); // 30초->30~60초 랜덤으로 변경
         currentGameTime = gameTime;
@@ -260,7 +264,7 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         else if (currentState == GameState.Playing_OffLight)
         {
-            globalLight.intensity = 0.2f;
+            globalLight.intensity = 0f;
             globalLight.color = Color.darkGray;
         }
     }
@@ -297,6 +301,8 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         currentState = newState;
         votingEndTime = endTime;
+        //상태 변경 알림 발사 (SightSystemController가 여기에 반응)
+        OnGameStateChanged?.Invoke(currentState);
 
         switch (newState)
         {
@@ -343,6 +349,8 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
             if (currentState != receivedState)
             {
                 currentState = receivedState;
+                //네트워크 동기화로 상태가 바뀐 경우도 알림
+                OnGameStateChanged?.Invoke(currentState);
                 UpdateLightState();
             }
         }
