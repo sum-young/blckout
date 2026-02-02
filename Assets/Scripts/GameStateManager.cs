@@ -68,7 +68,7 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
             props.Add("IsDead", false);
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }
-        #endregion*/
+        #endregion
 
         blackoutDelay = Random.Range(30f, 60f); // 30초->30~60초 랜덤으로 변경
         currentGameTime = gameTime;
