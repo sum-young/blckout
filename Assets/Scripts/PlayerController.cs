@@ -170,6 +170,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RPC_ChangeToDeadBody()
     {
+        // 애니메이터 끄기
+        if (anim != null) anim.enabled = false;
+        
         // 스프라이트 교체
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null && deadSprite != null)
@@ -178,6 +181,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
             // 시체는 바닥에 깔려야 하므로 그리기 순서를 낮춤
             sr.sortingOrder = deadSortingOrder;
+
+            Debug.Log("스프라이트 교체!");
         }
 
         // 더 이상 충돌하지 않게 Collider 끄기
@@ -186,9 +191,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         // 움직임 멈추기
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (rb != null) rb.velocity = Vector2.zero;
+        if (rb != null) rb.linearVelocity = Vector2.zero;
 
         // PlayerController 스크립트 기능 정지
         this.enabled = false;
+
+        Debug.Log("충돌, 움직임, 조작 모두 끔!");
     }
 }

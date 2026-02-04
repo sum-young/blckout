@@ -102,6 +102,7 @@ public class KillBtnController : MonoBehaviourPunCallbacks
         PlayerController targetScript = null; // PlayerController.cs를 가져오기 위해
         GameObject myPlayer = null;
         GameObject closestPlayer = null;
+        PhotonView pv = null;
         float closestDistance = Mathf.Infinity;
 
         // 1) 게임 내 플레이어들(tag가 Player)을 탐색
@@ -111,7 +112,7 @@ public class KillBtnController : MonoBehaviourPunCallbacks
         foreach (GameObject p in players)
         {
             // 플레이어의 커스텀 프로퍼티 정보 가져오기
-            PhotonView pv = p.GetComponent<PhotonView>();
+            pv = p.GetComponent<PhotonView>();
             if (pv.IsMine)
             {
                 myPlayer = p; // 내 플레이어 저장
@@ -123,7 +124,7 @@ public class KillBtnController : MonoBehaviourPunCallbacks
         foreach (GameObject p in players)
         {
             // 플레이어의 커스텀 프로퍼티 정보 가져오기
-            PhotonView pv = p.GetComponent<PhotonView>();
+            pv = p.GetComponent<PhotonView>();
             bool isDead = (bool)pv.Owner.CustomProperties["IsDead"];
 
             if (!pv.IsMine && !isDead) // 내 캐릭터가 아니고 상대 플레이어가 살아있다면
@@ -137,8 +138,13 @@ public class KillBtnController : MonoBehaviourPunCallbacks
             }
         }
 
+
+        // 디버그용
+        pv = closestPlayer.GetComponent<PhotonView>();
+        Debug.Log($"가장 가까운 플레이어: {pv.Owner.NickName}");
+
         // 가장 가까운 플레이어의 PlayerController.cs 스크립트를 가져오기
-        targetScript = closestPlayer.GetComponent<PlayerController>();
+        if(pv!=null) targetScript = closestPlayer.GetComponent<PlayerController>();
 
         // 4) 킬 스킬 사용했을 때 사정거리(1.5유닛) 안 가장 가까운 플레이어 죽이기
         if(closestDistance < killRange)
@@ -147,7 +153,7 @@ public class KillBtnController : MonoBehaviourPunCallbacks
             
             // 5) 타켓 플레이어 사망 처리
             // IsDead = true로 변경
-            PhotonView pv = closestPlayer.GetComponent<PhotonView>();
+            pv = closestPlayer.GetComponent<PhotonView>();
             HashTable playerSetting = pv.Owner.CustomProperties;
             playerSetting["IsDead"] = true;
 
