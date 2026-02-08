@@ -142,7 +142,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 575011765755603136}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_text: "\uD50C\uB808\uC774\uC5B4"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8490d1470c3a644a0b06299224a476dc, type: 2}
-  m_sharedMaterial: {fileID: 3013116079223382450, guid: 8490d1470c3a644a0b06299224a476dc, type: 2}
+  m_sharedMaterial: {fileID: 803746856627935701, guid: 8490d1470c3a644a0b06299224a476dc, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -480,6 +480,8 @@ GameObject:
   - component: {fileID: 63777657872127596}
   - component: {fileID: 6567382224021773748}
   - component: {fileID: 6526352683532356387}
+  - component: {fileID: 7521883857017415067}
+  - component: {fileID: 7758048596101705283}
   m_Layer: 0
   m_Name: Player(main+mafia)
   m_TagString: Player
@@ -671,6 +673,8 @@ MonoBehaviour:
   anim: {fileID: 4377210779074387404}
   playerNameText: {fileID: 4534010434648015675}
   spriteRenderer: {fileID: 8733851416894423090}
+  deadSprite: {fileID: 21300000, guid: d69c9d63de0334466a4a9430978ee700, type: 3}
+  deadSortingOrder: 0
 --- !u!114 &7481538514369894759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -765,3 +769,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryModel
   item: {fileID: 0}
+--- !u!114 &7521883857017415067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8180571238026562750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04276d20719589f44a646113c11ec2f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CriminalTagPunRelay
+  criminalTagUI: {fileID: 7758048596101705283}
+--- !u!114 &7758048596101705283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8180571238026562750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b92ae8b8d0c574c81eb55caffc0b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CriminalTagUI
+  criminalText: {fileID: 4685588104220550237}
+  duration: 10
