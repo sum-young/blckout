@@ -40,6 +40,7 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
     private float currentGameTime;
     private int loadedPlayerCnt = 0;
     public bool isGameStart = false;
+    public bool isGameEnded = false;
     [HideInInspector] public bool skipWinCondition = false;
 
     //투표용 변수
@@ -123,6 +124,8 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
 
             if (currentGameTime <= 0) currentGameTime = 0;
 
+            if(isGameEnded) return; // RPC 중복 방지용
+            
             WhoWin result = CheckWinCondition();
             if (result != WhoWin.None) // 게임 종료되었다면
             {
@@ -195,9 +198,21 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         if(notYetCnt>0) return WhoWin.None; // 아직 로딩 다 안 됐으면 승리 조건 체크x
-        if (survivorCount == 0) return WhoWin.KillerWin;
-        if (killerCount == 0) return WhoWin.SurvivorWin;
-        if (currentGameTime <= 0) return WhoWin.SurvivorWin;
+        if (survivorCount == 0) 
+        {
+            isGameEnded = true;
+            return WhoWin.KillerWin;
+        }
+        if (killerCount == 0) 
+        {
+            isGameEnded = true;
+            return WhoWin.SurvivorWin;
+        }
+        if (currentGameTime <= 0) 
+        {
+            isGameEnded = true;
+            return WhoWin.SurvivorWin;
+        }
 
         return WhoWin.None;
     }
