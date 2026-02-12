@@ -40,6 +40,7 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
     private float currentGameTime;
     private int loadedPlayerCnt = 0;
     public bool isGameStart = false;
+    public bool isGameEnded = false;
     [HideInInspector] public bool skipWinCondition = false;
 
     //투표용 변수
@@ -66,7 +67,7 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
 
             // 1. 인게임씬에 캐릭터 생성하기 위한 코드
             Vector2 randomPos = Random.insideUnitCircle * 2.0f;
-            PhotonNetwork.Instantiate("Player(Kill)", randomPos, Quaternion.identity);
+            PhotonNetwork.Instantiate("Player(kill)", randomPos, Quaternion.identity);
 
             // 2. 상태 초기화
             Hashtable props = new Hashtable();
@@ -123,6 +124,8 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
 
             if (currentGameTime <= 0) currentGameTime = 0;
 
+            if(isGameEnded) return; // RPC 중복 방지용
+            
             WhoWin result = CheckWinCondition();
             if (result != WhoWin.None) // 게임 종료되었다면
             {
@@ -130,6 +133,8 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
                 photonView.RPC("RPC_EndGame", RpcTarget.All, result);
             }
         }
+
+        if(GameUtils.IsMyPlayerDead) return; // 투표 소집 전 생존여부 파악
 
         // 3. 투표 시작 요청(우선은 M키 누르면 시작되게)
         if (Input.GetKeyDown(KeyCode.M))
@@ -193,9 +198,21 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         if(notYetCnt>0) return WhoWin.None; // 아직 로딩 다 안 됐으면 승리 조건 체크x
-        if (survivorCount == 0) return WhoWin.KillerWin;
-        if (killerCount == 0) return WhoWin.SurvivorWin;
-        if (currentGameTime <= 0) return WhoWin.SurvivorWin;
+        if (survivorCount == 0) 
+        {
+            isGameEnded = true;
+            return WhoWin.KillerWin;
+        }
+        if (killerCount == 0) 
+        {
+            isGameEnded = true;
+            return WhoWin.SurvivorWin;
+        }
+        if (currentGameTime <= 0) 
+        {
+            isGameEnded = true;
+            return WhoWin.SurvivorWin;
+        }
 
         return WhoWin.None;
     }
@@ -230,7 +247,7 @@ public class GameStateManager : MonoBehaviourPunCallbacks, IPunObservable
             return;
         }
         
-       photonView.RPC("RPC_RequestMeeting", RpcTarget.MasterClient, interacter);
+        photonView.RPC("RPC_RequestMeeting", RpcTarget.MasterClient, interacter);
     }
 
     [PunRPC]
