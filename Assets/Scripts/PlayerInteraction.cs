@@ -132,12 +132,18 @@ public class PlayerInteraction : MonoBehaviourPun
     {
         if (activeInteractable != null)
         {
+            //락 해제
+            var mb = activeInteractable as MonoBehaviour;
+            var netLock = mb != null ? mb.GetComponent<PhotonLock>() : null;
+            netLock?.ReleaseLock();
+            
             activeInteractable.ShowPanel(false);
             activeInteractable.ShowUI(false);
             activeInteractable = null;
         }
 
-        if (InventoryUIController.instance != null) InventoryUIController.instance.setInteractTarget(null);
+        if (InventoryUIController.instance != null) 
+            InventoryUIController.instance.setInteractTarget(null);
     }
     
     //입력(E키) 처리
@@ -230,15 +236,15 @@ public class PlayerInteraction : MonoBehaviourPun
                 currentTarget.Interact(PhotonNetwork.LocalPlayer);
                 activeInteractable = currentTarget;
 
-                netLock?.ReleaseLock();//완료 후 락 해제
-                CancelHold();
+                holdTimer = 0f;
+                holdingTarget = null;
+                return;
             }
         }
 
         //중간에 키 뗐을 때도 락 해제 + 취소
         if (Input.GetKeyUp(interactKey))
         {
-            netLock?.ReleaseLock();
             CancelHold();
         }
     }
