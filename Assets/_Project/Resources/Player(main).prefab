@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3060270021805218583}
   - component: {fileID: 9016375274005362184}
   - component: {fileID: 1170558717723327296}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 5549931961714148482}
   - component: {fileID: 8281745912752434996}
   - component: {fileID: 2411073956501269495}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: VisionLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 1236347806049626525}
   - component: {fileID: 2297456111410561586}
   - component: {fileID: 9063822296812553086}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CriminalText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 7598957205793486212}
   - component: {fileID: 4158481852925757780}
   - component: {fileID: 4534010434648015675}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NicknameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,7 +495,7 @@ GameObject:
   - component: {fileID: 6526352683532356387}
   - component: {fileID: 380096107987181151}
   - component: {fileID: 6195108761773258975}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player(main)
   m_TagString: Player
   m_Icon: {fileID: 0}
