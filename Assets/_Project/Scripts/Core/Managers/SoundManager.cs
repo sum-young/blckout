@@ -7,7 +7,7 @@ public class SoundManager : MonoBehaviour
 
     [Header ("사운드 연결")]
     [SerializeField] private SoundDataSO soundDataSO;
-    private Dictionary<string, AudioClip> sfxDictionary = new Dictionary<string, AudioClip>();
+    public Dictionary<string, AudioClip> sfxDictionary = new Dictionary<string, AudioClip>();
     private AudioSource audioSource;
 
     private void Awake()

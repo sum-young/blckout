@@ -38,6 +38,7 @@ public class ReadyManager : MonoBehaviourPunCallbacks
 
     public void OnClickReadyButton()
     {
+        SoundManager.instance.SFXPlay("ButtonClick");
         // 버튼을 누른 로컬 플레이어 가져오기
         Player localPlayer = PhotonNetwork.LocalPlayer;
         bool isReady = false;
@@ -60,6 +61,7 @@ public class ReadyManager : MonoBehaviourPunCallbacks
 
     public void OnClickLeaveButton()
     {
+        SoundManager.instance.SFXPlay("ButtonClick");
         PhotonNetwork.LeaveRoom();
     }
 
@@ -185,6 +187,7 @@ public class ReadyManager : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
+        SoundManager.instance.SFXPlay("ButtonClick");
         if (PhotonNetwork.IsMasterClient)
         {
             // 게임 시작 시 더 이상 다른 사람이 방으로 못 들어오게 막기

@@ -13,16 +13,19 @@ public class TitleUI : MonoBehaviour
     }
     public void GoConnect()
     {
+        SoundManager.instance.SFXPlay("ButtonClick");
         SceneManager.LoadScene("Scene_Connect");
     }
 
     public void GoHowTo()
     {
+        SoundManager.instance.SFXPlay("ButtonClick");
         gameRulePanel.SetActive(true);
     }
 
     public void OffRulePanel()
     {
+        SoundManager.instance.SFXPlay("ButtonClick");
         gameRulePanel.SetActive(false);
     }
 }
