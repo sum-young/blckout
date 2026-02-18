@@ -188,7 +188,7 @@ public class CraftingBox : MonoBehaviourPun, IInteractable, IContainer, IHoldInt
     //조합하기 버튼 클릭시 실행되는 함수
     public void OnClickCraft()
     {
-        SoundManager.instance.SFXPlay("ButtonClick");
+        SoundManager.instance.UISoundPlay("ButtonClick");
         SoundManager.instance.SFXPlay("CraftingEffect");
         //버튼 비활성화해서 중복 클릭 방지
         if (craftButton != null) craftButton.interactable = false;
