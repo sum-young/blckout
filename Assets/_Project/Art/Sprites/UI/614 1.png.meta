@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b1385f0703c7744c3827478cfcb75e29
+guid: e9b4a5ff7c47a4e30a1fb13c2d6a95f5
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -129,13 +129,13 @@ TextureImporter:
       name: 614_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 143
-        height: 143
+        x: 3
+        y: 3
+        width: 138
+        height: 138
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 1, y: 1, z: 0, w: 0}
+      border: {x: 3, y: 3, z: 3, w: 3}
       customData: 
       outline: []
       physicsShape: []
