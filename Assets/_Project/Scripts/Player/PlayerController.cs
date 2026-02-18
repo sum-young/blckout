@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //마우스 민감도 추가
         float sens = PlayerPrefs.GetFloat("MouseSens", 1.0f);
         float mouseX = Input.GetAxis("Mouse X") * sens;
-        float mouseY = Input.GetAxis("MouseY") * sens;
+        float mouseY = Input.GetAxis("Mouse Y") * sens;
         
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
