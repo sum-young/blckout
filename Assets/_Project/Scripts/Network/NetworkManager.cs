@@ -57,6 +57,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks, IOnEventCallback
         if (!PhotonNetwork.IsConnected)
         {
             Debug.Log("[NM] Auto ConnectUsingSettings");
+
+            //인게임보이스 ParallelSync 테스트 위해 고유 UserID 설정.
+            PhotonNetwork.AuthValues = new Photon.Realtime.AuthenticationValues();
+            PhotonNetwork.AuthValues.UserId = System.Guid.NewGuid().ToString();
+            
             PhotonNetwork.ConnectUsingSettings();
         }
     }
