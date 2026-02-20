@@ -17,7 +17,7 @@ public class VoiceController : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(this.gameObject);
         
-        localRecorder = GetComponent<Recorder>();
+        localRecorder = FindObjectOfType<Recorder>();
         micUI.SetMicUI(isMicToggleOn);
     }
 
