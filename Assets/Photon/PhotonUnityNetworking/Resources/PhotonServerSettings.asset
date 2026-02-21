@@ -11,12 +11,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.ServerSettings
+  m_EditorClassIdentifier: 
   AppSettings:
     AppIdRealtime: 1cc73067-b3c3-43a1-bcb7-f2068a81a412
     AppIdFusion: 
     AppIdChat: 
-    AppIdVoice: 
+    AppIdVoice: fccd43cd-0e03-4d43-a56c-6658b44eac22
     AppVersion: 
     UseNameServer: 1
     FixedRegion: 
@@ -28,60 +28,49 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: kr
+  DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - CantHearYou
+  - ChangeColour
   - ClickRpc
   - DestroyRpc
+  - HeresWhy
   - DestroySpaceship
   - Fire
+  - GetItem
+  - RequestGetItem
+  - RequestOpen
+  - RequestReport
   - RespawnSpaceship
-  - RPC_SetGameSTate
-  - RPC_SetGameState
-  - RequestOpen
-  - RequestReport
-  - RpcOpen
-  - RPCReport
+  - RPC_AddItem
   - RPC_CastVote
-  - RPC_RequestMeeting
-  - RPC_ShowVoteResult
-  - RequestOpen
-  - RequestReport
+  - RPC_ChangeToDeadBody
+  - RPC_DropItems
+  - RPC_EndGame
+  - RPC_Firework
+  - RPC_LockDenied
+  - RPC_MoveToLobby
+  - RPC_OnLockChanged
   - RPC_ReceiveChat
   - RPC_ReceiveSystem
+  - RPC_ReleaseLock
+  - RPC_ReportLoadingComplete
+  - RPC_RequestMeeting
+  - RPC_RequestTakeItem
+  - RPC_SetGameState
+  - RPC_ShowCriminalTag
+  - RPC_ShowVoteResult
+  - RPC_StartGame
+  - RPC_SuccessTakeItem
+  - RPC_TryCraftItem
+  - RPC_TryLock
+  - RPC_UpdateSlot
   - RpcOpen
   - RPCReport
-  - RPC_ReportLoadingComplete
-  - RPC_StartGame
-  - RPC_EndGame
-  - RequestCraftingOpen
-  - RequestGetItem
-  - SetItem
-  - AddItem
-  - RPC_RemoveItem
-  - RPC_AddItem
-  - RemoveCraftIngredient
-  - RPC_AddCraftIngredient
-  - RPC_UpdateSlot
-  - RPC_TryCraftItem
-  - RPC_DestroySelf
-  - RPC_RequestTakeItem
-  - RPC_SuccessTakeItem
-  - RPC_TriggerFirework
-  - RPC_Firework
-  - RPC_ChangeToDeadBody
-  - RPC_ShowCriminalTag
-  - RPC_LockDenied
-  - RPC_OnLockChanged
-  - RPC_ReleaseLock
-  - RPC_TryLock
-  - RPC_DropItems
-  - GetItem
-  - RPC_OnDieVisual
-  - RPC_MoveToLobby
   DisableAutoOpenWizard: 1
   ShowSettings: 1
-  DevRegionSetOnce: 1
+  DevRegionSetOnce: 0
