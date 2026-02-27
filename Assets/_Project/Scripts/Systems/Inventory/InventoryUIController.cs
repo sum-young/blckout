@@ -72,7 +72,7 @@ public class InventoryUIController : MonoBehaviour, IClickHandler
             RectTransform prevRT = slotRoots[slotRoots.Count - 1].GetComponent<RectTransform>();
             RectTransform newRT = newSlot.GetComponent<RectTransform>();
             float slotHeight = prevRT.rect.height;
-            newRT.anchoredPosition = prevRT.anchoredPosition + new Vector2(0, -(slotHeight + 8f));
+            newRT.anchoredPosition = prevRT.anchoredPosition + new Vector2(0, -(slotHeight + 8f + 40f));
 
             // 자식에서 아이콘 찾기
             Image icon = newSlot.transform.Find(itemImage.gameObject.name)?.GetComponent<Image>();
