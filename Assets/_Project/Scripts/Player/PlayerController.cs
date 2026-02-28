@@ -170,7 +170,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             Vector3 diePos = transform.position;
-            
+
             Vector3 randomPos = transform.position;
             ItemData dropItem = InventoryModel.instance.DropItem();
             if (dropItem != null) photonView.RPC(nameof(RPC_DropItems), RpcTarget.MasterClient, dropItem.itemID, randomPos);
@@ -214,8 +214,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
         // 내 캐릭터의 레이어를 "Ghost"로 변경 -> 산 사람들는 유령 못 봄
         gameObject.layer = LayerMask.NameToLayer("Ghost");
 
+        // 이름표도 "Ghost" 레이어로 변경
+        if (playerNameText != null)
+        {
+            // 텍스트 오브젝트 자체의 레이어 변경
+            playerNameText.gameObject.layer = LayerMask.NameToLayer("Ghost");
+            Canvas parentCanvas = playerNameText.GetComponentInParent<Canvas>();
+            if (parentCanvas != null)
+            {
+                parentCanvas.gameObject.layer = LayerMask.NameToLayer("Ghost");
+            }
+        }
+
         // 모든 유령 투명도 70퍼로 설정
-        if (spriteRenderer != null) 
+        if (spriteRenderer != null)
         {
             Color ghostColor = spriteRenderer.color;
             ghostColor.a = 0.7f;
@@ -231,6 +243,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 // Culling Mask에 "Ghost" 레이어를 추가해서 보이게 만들기
                 mainCam.cullingMask |= (1 << LayerMask.NameToLayer("Ghost"));
+            }
+
+            // 1. (선택) SightSystem은 그대로 꺼줍니다.
+            GameObject sightSystem = GameObject.Find("SightSystem");
+            if (sightSystem != null) sightSystem.SetActive(false);
+
+            // 2. 맵 전체를 비추는 태양광(Global Light 2D)을 찾아서 최대치로 밝게 켭니다!
+            GameObject globalLightObj = GameObject.Find("Global Light 2D");
+            if (globalLightObj != null)
+            {
+                // URP 2D 조명 컴포넌트를 가져와서
+                UnityEngine.Rendering.Universal.Light2D light2D = globalLightObj.GetComponent<UnityEngine.Rendering.Universal.Light2D>();
+
+                // 조명 밝기(intensity)를 1f(100%)로 올려서 맵 전체를 환하게 만듭니다!
+                if (light2D != null) light2D.intensity = 1f;
             }
         }
 
@@ -248,7 +275,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         // 플레이어가 나가도 유지되도록 RoomObject로 생성
         PhotonNetwork.InstantiateRoomObject("DeadBodyPrefab", spawnPos, Quaternion.identity, 0, data);
-        
+
         Debug.Log($"방장이 {deadPlayerName}의 시체를 바닥에 생성했습니다!");
     }
 
