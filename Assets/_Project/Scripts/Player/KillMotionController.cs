@@ -17,21 +17,30 @@ public class KillMotionController : MonoBehaviour
         if (killMotionPanel != null) killMotionPanel.SetActive(false);
     }
 
-    // 누군가 죽거나 죽일 때 호출
     public void ShowKillMotion()
     {
-        killMotionPanel.SetActive(true); // UI 켜기
-        killAnimator.SetTrigger("PlayKill"); // 킬 애니메이션 재생
-        
-        // 애니메이션이 끝난 후 UI를 다시 끄기 위한 코루틴 실행
-        StartCoroutine(HideKillMotionRoutine());
+        killMotionPanel.SetActive(true);
+        StartCoroutine(PlayAndHideRoutine());
     }
 
-    private IEnumerator HideKillMotionRoutine()
+    private IEnumerator PlayAndHideRoutine()
     {
-        // 킬 애니메이션의 길이만큼 기다리기
-        yield return new WaitForSeconds(1.5f);
+        // 킬 애니메이션 재생 시작!
+        killAnimator.SetTrigger("PlayKill");
 
-        killMotionPanel.SetActive(false); // 킬 모션 끝난 후 UI 끄기
+        // 유니티가 'Kill_Action' 상태로 완전히 넘어갈 때까지 무한 대기
+        while (!killAnimator.GetCurrentAnimatorStateInfo(0).IsName("Kill_Action"))
+        {
+            yield return null;
+        }
+
+        // 킬 애니메이션의 길이 가져오기
+        float animLength = killAnimator.GetCurrentAnimatorStateInfo(0).length;
+
+        // 알아낸 길이만큼 기다리기
+        yield return new WaitForSeconds(animLength);
+
+        // 애니메이션이 끝나는 순간 정확히 UI 끄기
+        killMotionPanel.SetActive(false);
     }
 }

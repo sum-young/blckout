@@ -241,9 +241,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
             spriteRenderer.sortingLayerName = "GhostTop";
         }
 
-        // 만약 본인이 죽은 거면 다른 Ghost 보이게 변경
+        // 만약 본인이 죽은 거면
         if (photonView.IsMine)
         {
+            // 피해자이므로 킬 모션 재생
+            if (KillMotionController.instance != null)
+            {
+                KillMotionController.instance.ShowKillMotion();
+            }
+            
             // 메인 카메라를 찾아서
             Camera mainCam = Camera.main;
             if (mainCam != null)

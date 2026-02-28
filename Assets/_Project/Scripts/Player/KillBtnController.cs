@@ -150,6 +150,12 @@ public class KillBtnController : MonoBehaviourPunCallbacks
         {
             Debug.Log($"킬 성공! 사망자: {targetScript.photonView.Owner.NickName}");
 
+            // 살인자 화면에 킬 모션 재생
+            if (KillMotionController.instance != null)
+            {
+                KillMotionController.instance.ShowKillMotion();
+            }
+            
             // 5) 타켓 플레이어 사망 처리
             // IsDead = true로 변경
             Hashtable props = new Hashtable();
