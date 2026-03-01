@@ -86,6 +86,7 @@ MonoBehaviour:
   - RPC_SpawnDeadBody
   - RPC_CraftSuccess
   - RPC_MigrateToNewRoom
+  - RPC_DestroyRoomAndLeave
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
